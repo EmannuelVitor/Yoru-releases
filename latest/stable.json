@@ -1,0 +1,46 @@
+{
+  "version": "1.1.0",
+  "channel": "stable",
+  "date": "2026-10-14",
+  "notes": "O Yoru em todo lugar\n- Windows, Mac, Linux, Android e site, sempre juntos: Cada versão sai ao mesmo tempo para todos. O app avisa de versão nova pela internet, mesmo sem amigos online, e confere a assinatura antes de instalar.\n- Fica na bandeja ao fechar: Fechar a janela deixa o Yoru perto do relógio, recebendo mensagens e chamadas. Dá para abrir junto com o computador em Configurações › Sistema.\n- Mensagens mais completas: Negrito, itálico, código, citação e links; mensagens de voz; enquetes; apagar para todos ou só para você; silenciar conversas.\n- Voz e câmera: Apertar para falar (até dentro de jogos), sensibilidade do microfone, fundo da câmera desfocado ou com arte da Yoru e vários canais de voz por grupo.\n- Seu jeito: Mostre o que está jogando ou ouvindo, deixe um recado no perfil, escolha entre temas claros e escuros ou monte o seu, e use o app em inglês ou espanhol.\n- Mensagens chegam mesmo com você offline: Amigos em comum guardam uma cópia cifrada (que eles não conseguem ler) e entregam quando você aparece.",
+  "platforms": {
+    "darwin-arm64": {
+      "update": {
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.0\",\"platform\":\"darwin-arm64\",\"fileName\":\"Yoru-1.1.0-arm64.dmg\",\"size\":152962760,\"sha256\":\"f5737b5e403954f0c3d71f28d831d97e7dee71850541c7815a9f83cb0d97ef25\",\"notes\":\"O Yoru em todo lugar\",\"createdAt\":1791990832499}",
+        "signature": "gZWx9kXBJHJ/EGqZJ70+5vyhSwPpuOAXMWyHsn/1/PvDH8i3IZIfjuziJMZQD3hb0d0mUil1xnLB3C9h3fLtBQ=="
+      },
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.0/Yoru-1.1.0-arm64.dmg"
+    },
+    "darwin-x64": {
+      "update": {
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.0\",\"platform\":\"darwin-x64\",\"fileName\":\"Yoru-1.1.0-x64.dmg\",\"size\":159786223,\"sha256\":\"1fc84d3dc084866e307668b15e7e153967d53f9d03547e01947e1e5c4729cc0a\",\"notes\":\"O Yoru em todo lugar\",\"createdAt\":1791990832155}",
+        "signature": "eeLjSbzYYaiPAmwnz2F1TQTECeI8ZMO2ONoIv9qrWbzep5QSq55aSJd6FX43+6s/QTlyznZV9t0QDOHdH3HNAQ=="
+      },
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.0/Yoru-1.1.0-x64.dmg"
+    },
+    "linux-x64": {
+      "update": {
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.0\",\"platform\":\"linux-x64\",\"fileName\":\"Yoru-1.1.0.AppImage\",\"size\":150341816,\"sha256\":\"6d7998442c7dc48479ad43cbf4843fe223606853e20e4359037ac4ca6015996b\",\"notes\":\"O Yoru em todo lugar\",\"createdAt\":1791990705900}",
+        "signature": "/L8pcWpKeBs+FrXOXDmCu5aqpqpM4UkgtgpkwX35mVakMM0DnfCvcMfoiiAsuvZ6XZTMNOVvEASKYtNKblG4DA=="
+      },
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.0/Yoru-1.1.0.AppImage"
+    },
+    "win32-x64": {
+      "update": {
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.0\",\"platform\":\"win32-x64\",\"fileName\":\"Yoru-Setup-1.1.0.exe\",\"size\":132016940,\"sha256\":\"190fdd519e93aa7c892238f106393c7a7fd8fdcc5800ca6fa02ea452934e5cb4\",\"notes\":\"O Yoru em todo lugar\",\"createdAt\":1791990744628}",
+        "signature": "bjDIOo1ah711UnM9mwdAWfbC4vAOtI2ehRyQq9OSGSFZNDUXFy8WsfcszlFFBKFiV8QKlChYWCqUrHgQ4WZnDA=="
+      },
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.0/Yoru-Setup-1.1.0.exe"
+    }
+  },
+  "android": {
+    "version": "1.1.0",
+    "versionCode": 1010099,
+    "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.0/Yoru-1.1.0.apk",
+    "size": 12221867,
+    "sha256": "84fa05ee1d5b9b670dca263a863c74bfee8712060fb5d6185cc3b466269e560e"
+  },
+  "web": {
+    "url": "https://yoru-call.web.app"
+  }
+}
