@@ -1,0 +1,288 @@
+# Lançamento das 5 edições do Yoru ao mesmo tempo: Windows, macOS, Linux, Android e Web.
+#
+# Roda AQUI (repositório público de downloads), não no repositório do código: os segredos ficam com quem lança e
+# repositório público não gasta minutos do GitHub Actions. O código vem do repositório privado EmannuelVitor/Yoru por
+# uma chave de implantação só de leitura (segredo YORU_SOURCE_DEPLOY_KEY).
+#
+# Como lançar: aba Actions > "Lançamento" > Run workflow, informando a versão (igual à do package.json) e o branch.
+# Passo a passo e segredos: docs/lancamento-automatico.md no repositório do código.
+#
+# Ordem: verificar -> desktop (3 sistemas) + android -> publicar (release e índice) -> site (só com o segredo do Firebase).
+# Se algo falhar antes de publicar, nada sai: ninguém recebe uma versão pela metade.
+#
+# Os registros (logs) deste repositório são públicos: nenhum passo imprime segredo, e os artefatos intermediários
+# (os mesmos instaladores que vão para a release) somem em 3 dias.
+name: Lançamento
+
+on:
+  workflow_dispatch:
+    inputs:
+      versao:
+        description: 'Versão (igual à do package.json): 1.1.0 ou 1.1.0-beta.1'
+        required: true
+        type: string
+      ref:
+        description: 'Branch, tag ou commit do código no EmannuelVitor/Yoru'
+        required: true
+        default: main
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: lancamento
+  cancel-in-progress: false
+
+env:
+  SOURCE_REPO: EmannuelVitor/Yoru
+  VERSAO: ${{ inputs.versao }}
+  TAG: v${{ inputs.versao }}
+
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    outputs:
+      commit: ${{ steps.commit.outputs.sha }}
+      site: ${{ steps.site.outputs.publicar }}
+    steps:
+      - name: Versão no formato certo
+        run: |
+          echo "$VERSAO" | grep -Eq '^[0-9]+\.[0-9]+\.[0-9]+(-beta\.[0-9]+)?$' || { echo "::error::Versão inválida: $VERSAO"; exit 1; }
+      - name: Segredos cadastrados
+        env:
+          YORU_SOURCE_DEPLOY_KEY: ${{ secrets.YORU_SOURCE_DEPLOY_KEY }}
+          YORU_PUBLISHER_KEY: ${{ secrets.YORU_PUBLISHER_KEY }}
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          falta=""
+          for s in YORU_SOURCE_DEPLOY_KEY YORU_PUBLISHER_KEY ANDROID_KEYSTORE_BASE64 \
+                   ANDROID_KEYSTORE_PASSWORD ANDROID_KEY_ALIAS ANDROID_KEY_PASSWORD; do
+            [ -n "${!s}" ] || falta="$falta $s"
+          done
+          if [ -n "$falta" ]; then echo "::error::Segredos não cadastrados:$falta"; exit 1; fi
+      # o site é opcional: sem o segredo do Firebase, as outras 4 edições saem e o site fica para depois
+      - id: site
+        name: Site (Firebase)
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_YORU__APP }}
+        run: |
+          if [ -n "$FIREBASE_SERVICE_ACCOUNT" ]; then
+            echo "publicar=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "publicar=false" >> "$GITHUB_OUTPUT"
+            echo "::warning::Sem o segredo do Firebase: este lançamento não publica o site."
+          fi
+      - name: Essa versão ainda não foi lançada
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          if gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "::error::A versão $VERSAO já foi lançada. Suba a versão no package.json."; exit 1
+          fi
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ inputs.ref }}
+          ssh-key: ${{ secrets.YORU_SOURCE_DEPLOY_KEY }}
+      # todos os jobs usam exatamente este commit, mesmo que o branch receba algo no meio do lançamento
+      - id: commit
+        run: echo "sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+      - name: A versão é a do package.json
+        run: |
+          V=$(node -p "require('./package.json').version")
+          [ "$V" = "$VERSAO" ] || { echo "::error::O package.json está na versão $V, não $VERSAO."; exit 1; }
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run lint
+      - run: npm run test:unit
+      - run: npm run test:cloud
+
+  desktop:
+    needs: verificar
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            edicao: windows
+          - os: macos-latest
+            edicao: macos
+          - os: ubuntu-latest
+            edicao: linux
+    runs-on: ${{ matrix.os }}
+    env:
+      MAIN_VITE_KLIPY_KEY: ${{ secrets.KLIPY_KEY }}
+      MAIN_VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+      MAIN_VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+      # sem certificado da Apple: o .app sai com assinatura ad hoc (mac.identity "-")
+      CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ needs.verificar.outputs.commit }}
+          ssh-key: ${{ secrets.YORU_SOURCE_DEPLOY_KEY }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npx install-electron
+      - run: npm run build
+      - run: node scripts/dist.mjs
+      - name: Assinar o manifesto de atualização
+        shell: bash
+        env:
+          YORU_PUBLISHER_KEY: ${{ secrets.YORU_PUBLISHER_KEY }}
+        run: |
+          V="$VERSAO"
+          case "${{ matrix.edicao }}" in
+            windows) node scripts/release.mjs --skip-build --platform win32-x64 --file "dist/Yoru-Setup-$V.exe" ;;
+            macos)
+              node scripts/release.mjs --skip-build --platform darwin-x64 --file "dist/Yoru-$V-x64.dmg"
+              node scripts/release.mjs --skip-build --platform darwin-arm64 --file "dist/Yoru-$V-arm64.dmg" ;;
+            linux) node scripts/release.mjs --skip-build --platform linux-x64 --file "dist/Yoru-$V.AppImage" ;;
+          esac
+      - uses: actions/upload-artifact@v4
+        with:
+          name: desktop-${{ matrix.edicao }}
+          if-no-files-found: error
+          retention-days: 3
+          path: |
+            dist/*.exe
+            dist/*.dmg
+            dist/*.AppImage
+            dist/*.update.json
+
+  android:
+    needs: verificar
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ needs.verificar.outputs.commit }}
+          ssh-key: ${{ secrets.YORU_SOURCE_DEPLOY_KEY }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+      - run: npm ci
+      - run: npm run build:web
+      - run: npx cap sync android
+      - name: Gerar e assinar o APK
+        env:
+          ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          echo "$ANDROID_KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/yoru.jks"
+          export ANDROID_KEYSTORE_FILE="$RUNNER_TEMP/yoru.jks"
+          V="$VERSAO"
+          CODE=$(node -e "const [c,p]=process.argv[1].split('-');const [a,b,d]=c.split('.').map(Number);console.log(a*1e6+b*1e4+d*100+(p?Number(p.split('.')[1]):99))" "$V")
+          (cd android && ./gradlew --no-daemon assembleRelease -PyoruVersionCode="$CODE" -PyoruVersionName="$V")
+          mkdir -p dist-android
+          cp android/app/build/outputs/apk/release/app-release.apk "dist-android/Yoru-$V.apk"
+          rm -f "$RUNNER_TEMP/yoru.jks"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android
+          if-no-files-found: error
+          retention-days: 3
+          path: dist-android/*.apk
+
+  publicar:
+    needs: [verificar, desktop, android]
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    # só este job escreve no repositório (release + índice), com o token do próprio Actions
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ needs.verificar.outputs.commit }}
+          ssh-key: ${{ secrets.YORU_SOURCE_DEPLOY_KEY }}
+          path: fonte
+      - uses: actions/checkout@v4
+        with:
+          path: downloads
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - uses: actions/download-artifact@v4
+        with:
+          path: artefatos
+          merge-multiple: true
+      - name: Índice do canal
+        run: |
+          node fonte/scripts/release-index.mjs --dir artefatos --out downloads/latest --tag "$TAG" \
+            --repo "$GITHUB_REPOSITORY" --notes-out notas.md
+      - name: Release com os instaladores
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BETA=""
+          case "$VERSAO" in *-beta.*) BETA="--prerelease" ;; esac
+          gh release create "$TAG" artefatos/* --repo "$GITHUB_REPOSITORY" --target main --title "Yoru $VERSAO" \
+            --notes-file notas.md $BETA
+      - name: Publicar o índice (os apps passam a ver a versão nova)
+        run: |
+          cd downloads
+          git config user.name "Yoru Lançamento"
+          git config user.email "yoru-lancamento@users.noreply.github.com"
+          git add latest
+          git commit -m "Yoru $VERSAO"
+          git push
+
+  site:
+    needs: [verificar, publicar]
+    if: needs.verificar.outputs.site == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_PUBLISHABLE_KEY: ${{ vars.VITE_SUPABASE_PUBLISHABLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: ${{ env.SOURCE_REPO }}
+          ref: ${{ needs.verificar.outputs.commit }}
+          ssh-key: ${{ secrets.YORU_SOURCE_DEPLOY_KEY }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+      - run: npm ci
+      - run: npm run build:web
+      - name: Publicar no Firebase (beta vai para o site beta)
+        env:
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT || secrets.FIREBASE_SERVICE_ACCOUNT_YORU__APP }}
+        run: |
+          echo "$FIREBASE_SERVICE_ACCOUNT" > "$RUNNER_TEMP/firebase.json"
+          export GOOGLE_APPLICATION_CREDENTIALS="$RUNNER_TEMP/firebase.json"
+          case "$VERSAO" in
+            *-beta.*) node -e "const f='firebase.json';const c=JSON.parse(require('fs').readFileSync(f));c.hosting.site='yoru-call-beta';require('fs').writeFileSync(f,JSON.stringify(c,null,2))" ;;
+          esac
+          npx --yes firebase-tools@15.31.0 deploy --only hosting --project yoru--app --non-interactive
+          rm -f "$RUNNER_TEMP/firebase.json"
