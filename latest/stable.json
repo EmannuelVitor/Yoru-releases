@@ -1,44 +1,44 @@
 {
-  "version": "1.1.1",
+  "version": "1.1.2",
   "channel": "stable",
   "date": "2026-10-15",
-  "notes": "Chega mesmo com você offline\n- Fotos e arquivos pela entrega offline: Imagens, vídeos, mensagens de voz e arquivos de até 16 MB também chegam por amigos em comum quando quem mandou já fechou o Yoru. Quem repassa guarda tudo cifrado, sem conseguir ver.\n- Confirmação de leitura nos grupos: No grupo, ✓✓ verde quando todos leram. Antes disso, dá para ver quantas pessoas já leram.\n- Convites que funcionam com você offline: Os administradores recebem quem usa o seu código de convite, e o grupo já chega confirmado para quem entra.\n- Identidades guardadas: \"Entrar com outra chave\" guarda a identidade atual neste computador para você voltar depois, e dá para criar uma identidade nova pelo app.\n- Downloads que continuam: Um arquivo pausado continua de onde parou, mesmo depois de fechar o app.\n- O app inteiro em inglês e espanhol: Avisos, erros, janelas de salvar e a busca de emoji agora também seguem o idioma escolhido em Configurações.",
+  "notes": "Voltar com um gesto\n- Voltar no celular: No app Android e no site pelo celular, o gesto ou o botão Voltar do sistema sai da conversa para a lista e fecha janelas, em vez de fechar o app.\n- Deslizar para voltar: Dentro de uma conversa no celular, deslize para a direita para voltar à lista.",
   "platforms": {
     "darwin-arm64": {
       "update": {
-        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.1\",\"platform\":\"darwin-arm64\",\"fileName\":\"Yoru-1.1.1-arm64.dmg\",\"size\":153057195,\"sha256\":\"e876bf5a107ab2b6f5f7edb54409eac7c3727757305c6854d9c63b6453566ac5\",\"notes\":\"Chega mesmo com você offline\",\"createdAt\":1792076501616}",
-        "signature": "5d68blO82E++BTgrr8gfLTv9/IQ6WKfAUixeDDVTYRd9tYUkz6kbw5b6An9E6RGUOy8EfkdNJpFzc1SmtcUgDQ=="
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.2\",\"platform\":\"darwin-arm64\",\"fileName\":\"Yoru-1.1.2-arm64.dmg\",\"size\":153028707,\"sha256\":\"0423444d2250c806646afad7ae0cbbc35d50ea8a295061280519eebcde929dd9\",\"notes\":\"Voltar com um gesto\",\"createdAt\":1792087605877}",
+        "signature": "RylZKwCiLhDokGaceteeMYCVfABCw0PoWYohMN1xuS1jjN8KpN/dx54VW2zhuLWuk4rpRONQWrUFfIomWJYEBg=="
       },
-      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.1/Yoru-1.1.1-arm64.dmg"
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.2/Yoru-1.1.2-arm64.dmg"
     },
     "darwin-x64": {
       "update": {
-        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.1\",\"platform\":\"darwin-x64\",\"fileName\":\"Yoru-1.1.1-x64.dmg\",\"size\":159880631,\"sha256\":\"dfdb0f018b96d2866d39d209d40e45e111fcd004b3bcc7edbd54060200121cc1\",\"notes\":\"Chega mesmo com você offline\",\"createdAt\":1792076501414}",
-        "signature": "Y3Nd/KU0BmGS3o3VAvmHQ4OXtIYYZ5iTw3+5rWEliv76Znizke7wLp+vF+rm1MpN6Qu2EzteGBFIXKbcwm8CBA=="
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.2\",\"platform\":\"darwin-x64\",\"fileName\":\"Yoru-1.1.2-x64.dmg\",\"size\":159889301,\"sha256\":\"617922cafebb8cd8cd50272146d99918d1f845cb7673ce482f35b00e4fdfe3fa\",\"notes\":\"Voltar com um gesto\",\"createdAt\":1792087605626}",
+        "signature": "I0kuvXK3Sar1hHBGPeGfd57H0hItveH2CpKmY1MibqD1PZS7XVd2orjNjUhbstn8iaCTsOgju2SiWygoSUz0DQ=="
       },
-      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.1/Yoru-1.1.1-x64.dmg"
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.2/Yoru-1.1.2-x64.dmg"
     },
     "linux-x64": {
       "update": {
-        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.1\",\"platform\":\"linux-x64\",\"fileName\":\"Yoru-1.1.1.AppImage\",\"size\":150424104,\"sha256\":\"caa3ae94d2a2ec10d126baf9983a4c6d7cd1b5616ee66702998263f7f468baa5\",\"notes\":\"Chega mesmo com você offline\",\"createdAt\":1792076119258}",
-        "signature": "4084qNk0XpMDyepzLh6smvlQKJr28OM2jOSoItAlWfrMRzCuqBEQ+2fTUf6fmQm02IfVsRUzbV4f8XXO+7ZeDQ=="
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.2\",\"platform\":\"linux-x64\",\"fileName\":\"Yoru-1.1.2.AppImage\",\"size\":150428207,\"sha256\":\"1f3ab1bed3c0518e315301fac886e24980a8c67c2173254b51c775f8c4ec5215\",\"notes\":\"Voltar com um gesto\",\"createdAt\":1792087506916}",
+        "signature": "dnLByPHUqPWJXyS9sy4BplRC61FiL4Uiza9FP4w2SePYBDtdICa7xi3L7l7tii/KsG2yteO0g6PMfh/TvdE0Cw=="
       },
-      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.1/Yoru-1.1.1.AppImage"
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.2/Yoru-1.1.2.AppImage"
     },
     "win32-x64": {
       "update": {
-        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.1\",\"platform\":\"win32-x64\",\"fileName\":\"Yoru-Setup-1.1.1.exe\",\"size\":132081215,\"sha256\":\"b91356ad05f2a22d334dd30924abdfd513f27cca2e60a56b25a15474f7d26222\",\"notes\":\"Chega mesmo com você offline\",\"createdAt\":1792076171429}",
-        "signature": "SyCZIxWMEY2Swde8mZz6P8kDdRwNeay6alf98gkiEbqFriSKUPBCk5kji1Qeo3xhF6cr+Vkv7nKGC3XjkPo2Cg=="
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.1.2\",\"platform\":\"win32-x64\",\"fileName\":\"Yoru-Setup-1.1.2.exe\",\"size\":132082427,\"sha256\":\"41a63436e1d674171dca91ccc09903dc6b1df740bf6310f6ed3456db2dfa6f60\",\"notes\":\"Voltar com um gesto\",\"createdAt\":1792087622116}",
+        "signature": "2tXMHO656P/5ODoYm+t52KMonqQRkWlXmEqkW8CPO3koAeYL4/GQEYx+k7xx6jiFbuQDnswjV5gE+JbWpCUJDQ=="
       },
-      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.1/Yoru-Setup-1.1.1.exe"
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.2/Yoru-Setup-1.1.2.exe"
     }
   },
   "android": {
-    "version": "1.1.1",
-    "versionCode": 1010199,
-    "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.1/Yoru-1.1.1.apk",
-    "size": 12294935,
-    "sha256": "51ccc8c47e9759ecbc3f4a62ad94a42cf9471e9875431c866bc11caf125ad002"
+    "version": "1.1.2",
+    "versionCode": 1010299,
+    "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.1.2/Yoru-1.1.2.apk",
+    "size": 12296315,
+    "sha256": "ca716a418484a4655ea6b51b917fba7acd24468f95c92887b1e0d376637c6e6e"
   },
   "web": {
     "url": "https://yoru-call.web.app"
