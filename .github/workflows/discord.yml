@@ -1,0 +1,51 @@
+# Avisa no Discord do Yoru quando um lançamento termina (copiar para EmannuelVitor/Yoru-releases).
+#
+# Roda depois do "Lançamento" com sucesso. Não dá para usar `on: release`: a release é criada com o GITHUB_TOKEN, e o GitHub
+# não dispara outros workflows por eventos criados por esse token. O workflow_run dispara.
+#
+# Estável: downloads em #releases e novidades em #patch-notes (com ping do cargo Notificações Yoru).
+# Beta (X.Y.Z-beta.N): downloads e novidades em #builds (com ping do cargo Beta Tester).
+#
+# Segredos (Settings > Secrets and variables > Actions > Secrets), um webhook por canal
+# (no Discord: Editar canal > Integrações > Webhooks > Novo webhook > Copiar URL):
+#   DISCORD_WEBHOOK_RELEASES, DISCORD_WEBHOOK_PATCH_NOTES, DISCORD_WEBHOOK_BUILDS
+# Variáveis (aba Variables), IDs dos cargos (Discord com Modo desenvolvedor > clique direito no cargo > Copiar ID):
+#   DISCORD_CARGO_NOTIFICACOES, DISCORD_CARGO_BETA
+# Sem um segredo, aquele aviso é pulado (o lançamento não depende disto).
+
+name: Discord
+
+on:
+  workflow_run:
+    workflows: [Lançamento]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag para avisar de novo (ex.: v1.1.2). Vazio = a release mais nova.'
+        required: false
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  avisar:
+    if: github.event_name == 'workflow_dispatch' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+      - name: Avisar no Discord
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+          DISCORD_WEBHOOK_RELEASES: ${{ secrets.DISCORD_WEBHOOK_RELEASES }}
+          DISCORD_WEBHOOK_PATCH_NOTES: ${{ secrets.DISCORD_WEBHOOK_PATCH_NOTES }}
+          DISCORD_WEBHOOK_BUILDS: ${{ secrets.DISCORD_WEBHOOK_BUILDS }}
+          DISCORD_CARGO_NOTIFICACOES: ${{ vars.DISCORD_CARGO_NOTIFICACOES }}
+          DISCORD_CARGO_BETA: ${{ vars.DISCORD_CARGO_BETA }}
+        run: node scripts/discord-aviso.mjs
