@@ -1,44 +1,44 @@
 {
-  "version": "1.2.2",
+  "version": "1.2.3",
   "channel": "stable",
   "date": "2026-10-16",
-  "notes": "Badges no lugar\n- Badges não somem mais: As badges de quem você conhece continuam aparecendo mesmo quando a pessoa abre o Yoru no site ou num celular novo. Uma badge só sai quando a conta oficial a tira ou quando ela vence.\n- Badges no site e no celular: Ao entrar no site ou no app Android com a chave de acesso ou pelo QR code, as suas badges vêm junto. Se elas sumiram antes, entre de novo com a chave ou pelo QR code.",
+  "notes": "Menos avisos repetidos\n- Sem pilha de avisos iguais: O aviso \"Anexos antigos foram removidos da nuvem\" aparece no máximo uma vez por dia, e um aviso igual a outro que ainda está na tela não se repete.",
   "platforms": {
     "darwin-arm64": {
       "update": {
-        "manifest": "{\"app\":\"telacord\",\"version\":\"1.2.2\",\"platform\":\"darwin-arm64\",\"fileName\":\"Yoru-1.2.2-arm64.dmg\",\"size\":153199123,\"sha256\":\"4376d56748ec1f41548e2142f8341a1d11ccf12cddaf53594df246341ac716ce\",\"notes\":\"Badges no lugar\",\"createdAt\":1792173114639}",
-        "signature": "ytsMlKNZ/tN+7jFCAzw4mxHQsYP1vL84Uh6/M45YqWnIivwCCUEPFeEDB0AHWhC99n3rEgqjj8A2dpzO1F8wCA=="
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.2.3\",\"platform\":\"darwin-arm64\",\"fileName\":\"Yoru-1.2.3-arm64.dmg\",\"size\":153199281,\"sha256\":\"a3f7e91915d85153261fc92e621454df24d6ac7c7954a53d4db3c0185553f9f7\",\"notes\":\"Menos avisos repetidos\",\"createdAt\":1792191106734}",
+        "signature": "T0jOzDdCAs/tpJU2nuaSIQsfn/oPIRXN/8Yv9hFo8uYc39ACg//8J6esx6dw8NwccPg3IG/mGo5OmjUQO3Z+Bw=="
       },
-      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.2.2/Yoru-1.2.2-arm64.dmg"
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.2.3/Yoru-1.2.3-arm64.dmg"
     },
     "darwin-x64": {
       "update": {
-        "manifest": "{\"app\":\"telacord\",\"version\":\"1.2.2\",\"platform\":\"darwin-x64\",\"fileName\":\"Yoru-1.2.2-x64.dmg\",\"size\":160048263,\"sha256\":\"d84ba1863fe926bb77c356f4f2ae41f418418160fc2c4b1f35eda0468bf9f092\",\"notes\":\"Badges no lugar\",\"createdAt\":1792173114352}",
-        "signature": "Mv0+IAp9m09xI6V0J06mhE1S8UsfktF1c0dR4+b3sxaca2U+leAaCBkBqDZ4CKsyl064ewTecaqi0AinIzrqBw=="
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.2.3\",\"platform\":\"darwin-x64\",\"fileName\":\"Yoru-1.2.3-x64.dmg\",\"size\":160048705,\"sha256\":\"720653aef2b2c8c0e0516d5976400d4d5bfd147db35d3b3bbeebdca67bfd6010\",\"notes\":\"Menos avisos repetidos\",\"createdAt\":1792191106562}",
+        "signature": "TGjOBEu4N0snnOyaNKBn9C739NspOTKzcSI5Xf8SlWetXzlFW3Zky0sxqRnL3yU0q7JaLf/RQIFctnA7qMKlBg=="
       },
-      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.2.2/Yoru-1.2.2-x64.dmg"
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.2.3/Yoru-1.2.3-x64.dmg"
     },
     "linux-x64": {
       "update": {
-        "manifest": "{\"app\":\"telacord\",\"version\":\"1.2.2\",\"platform\":\"linux-x64\",\"fileName\":\"Yoru-1.2.2.AppImage\",\"size\":150588089,\"sha256\":\"6021bdc978a2beeb0242d3010d9a64be9a617771fe44c80eac831c84fbac09a8\",\"notes\":\"Badges no lugar\",\"createdAt\":1792172977373}",
-        "signature": "ZE24seACpdYn53xixDoBpxWW/xfMULe9MtgPEsBwCFM/1vHPtK73jw2sYqBchjIsKFE5i7grUMfHKZGMRevXDQ=="
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.2.3\",\"platform\":\"linux-x64\",\"fileName\":\"Yoru-1.2.3.AppImage\",\"size\":150587939,\"sha256\":\"241e54c8dd6c2259c6ad9e2cfc0a7b3c4e08fe9bfa29b71cc3a595bbe3c39cd9\",\"notes\":\"Menos avisos repetidos\",\"createdAt\":1792191033762}",
+        "signature": "BiRdaeOAb7kRYE6Lc8QiJFu7KQ0zQduVqB5dsa70VtKPj5EHh1iX41SyYbMnah5yGa+dICsWrSGMwUQSG6VOCA=="
       },
-      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.2.2/Yoru-1.2.2.AppImage"
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.2.3/Yoru-1.2.3.AppImage"
     },
     "win32-x64": {
       "update": {
-        "manifest": "{\"app\":\"telacord\",\"version\":\"1.2.2\",\"platform\":\"win32-x64\",\"fileName\":\"Yoru-Setup-1.2.2.exe\",\"size\":132172592,\"sha256\":\"cf653f3d7cfb63bf4f617c3d39843f763dec6576cb471a19367c8dd11c81b787\",\"notes\":\"Badges no lugar\",\"createdAt\":1792173069057}",
-        "signature": "NSR2RZeDnxqb0zA30AMFp4fSYUAelfGZlQtQpbIZE53UxOk6d8E9HmK82rwxfCeb0UBJkjbfReV+8GAP9mugDg=="
+        "manifest": "{\"app\":\"telacord\",\"version\":\"1.2.3\",\"platform\":\"win32-x64\",\"fileName\":\"Yoru-Setup-1.2.3.exe\",\"size\":132173052,\"sha256\":\"7a3b35f7fd3b28c7fabe21d3e15b1f95506d1da77f10c2362777d8b252770778\",\"notes\":\"Menos avisos repetidos\",\"createdAt\":1792191132003}",
+        "signature": "olCGycFQFCa4MtjQgOK75idIT3rkxiSXBks5lW9KaZXek23Htal2B59T5Q5BJW+MZ+SBD7rim0bsGB7bTvKADQ=="
       },
-      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.2.2/Yoru-Setup-1.2.2.exe"
+      "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.2.3/Yoru-Setup-1.2.3.exe"
     }
   },
   "android": {
-    "version": "1.2.2",
-    "versionCode": 1020299,
-    "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.2.2/Yoru-1.2.2.apk",
-    "size": 12498107,
-    "sha256": "9fbf482777146723b4b30e282bda0d13d09233aeb40309c8a2a5e9ffd38d56f9"
+    "version": "1.2.3",
+    "versionCode": 1020399,
+    "url": "https://github.com/EmannuelVitor/Yoru-releases/releases/download/v1.2.3/Yoru-1.2.3.apk",
+    "size": 12498331,
+    "sha256": "9fb31e4b4a83cefcfdd2d205448c248002a41041d6ff6dc24aa68198c23435d7"
   },
   "web": {
     "url": "https://yoru-call.web.app"
