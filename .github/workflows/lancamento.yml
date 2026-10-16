@@ -22,7 +22,7 @@ on:
         required: true
         type: string
       ref:
-        description: 'Branch, tag ou commit do código no EmannuelVitor/Yoru'
+        description: 'Branch, tag ou commit do código no Yoru-team/Yoru'
         required: true
         default: main
         type: string
