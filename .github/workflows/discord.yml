@@ -1,4 +1,4 @@
-# Avisa no Discord do Yoru quando um lançamento termina (copiar para EmannuelVitor/Yoru-releases).
+# Avisa no Discord do Yoru quando um lançamento termina (copiar para Yoru-team/Yoru-releases).
 #
 # Roda depois do "Lançamento" com sucesso. Não dá para usar `on: release`: a release é criada com o GITHUB_TOKEN, e o GitHub
 # não dispara outros workflows por eventos criados por esse token. O workflow_run dispara.
