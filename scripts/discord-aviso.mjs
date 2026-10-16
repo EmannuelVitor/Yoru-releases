@@ -1,7 +1,7 @@
 // Avisa no Discord de uma release do Yoru-releases (chamado pelo .github/workflows/discord.yml).
 // Lê a release (TAG ou a mais nova, beta inclusive), monta os embeds no estilo do servidor e manda pelos webhooks.
 // Teste local sem enviar: SIMULAR=1 node scripts/discord-aviso.mjs
-const repo = process.env.GITHUB_REPOSITORY ?? 'EmannuelVitor/Yoru-releases'
+const repo = process.env.GITHUB_REPOSITORY ?? 'Yoru-team/Yoru-releases'
 const COR = 0x8b5cf6
 const COR_BETA = 0x3ba55c
 const SITE = 'https://yoru-call.web.app'
@@ -16,8 +16,18 @@ async function gh(path) {
 }
 
 async function release() {
-  const tag = process.env.TAG?.trim()
-  if (tag) return gh(`/releases/tags/${encodeURIComponent(tag)}`)
+  const typed = process.env.TAG?.trim()
+  if (typed) {
+    // aceita "1.1.2" e "v1.1.2" (as tags são "v1.1.2"); se não existir, diz quais existem
+    const tag = /^\d/.test(typed) ? `v${typed}` : typed
+    try {
+      return await gh(`/releases/tags/${encodeURIComponent(tag)}`)
+    } catch (error) {
+      if (!String(error.message).startsWith('GitHub 404')) throw error
+      const known = (await gh('/releases?per_page=10')).filter((r) => !r.draft).map((r) => r.tag_name)
+      throw new Error(`Não existe a versão "${typed}". Use uma destas: ${known.join(', ') || '(nenhuma publicada)'}.`)
+    }
+  }
   const list = await gh('/releases?per_page=10')
   const published = list.filter((r) => !r.draft).sort((a, b) => Date.parse(b.published_at) - Date.parse(a.published_at))
   if (!published.length) throw new Error('Nenhuma release publicada.')
