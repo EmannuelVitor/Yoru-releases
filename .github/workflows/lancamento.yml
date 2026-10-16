@@ -236,8 +236,11 @@ jobs:
           merge-multiple: true
       - name: Índice do canal
         run: |
+          # endereço ANTIGO dos downloads de propósito: os apps até a 1.1.2 só aceitam atualização que comece com
+          # https://github.com/EmannuelVitor/Yoru-releases/releases/download/ (o GitHub redireciona para o Yoru-team).
+          # A 1.2.0+ aceita os dois; troque para "$GITHUB_REPOSITORY" quando quase todos estiverem na 1.2.0+.
           node fonte/scripts/release-index.mjs --dir artefatos --out downloads/latest --tag "$TAG" \
-            --repo "$GITHUB_REPOSITORY" --notes-out notas.md
+            --repo EmannuelVitor/Yoru-releases --notes-out notas.md
       - name: Release com os instaladores
         env:
           GH_TOKEN: ${{ github.token }}
