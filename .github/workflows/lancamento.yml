@@ -1,7 +1,7 @@
 # Lançamento das 5 edições do Yoru ao mesmo tempo: Windows, macOS, Linux, Android e Web.
 #
 # Roda AQUI (repositório público de downloads), não no repositório do código: os segredos ficam com quem lança e
-# repositório público não gasta minutos do GitHub Actions. O código vem do repositório privado EmannuelVitor/Yoru por
+# repositório público não gasta minutos do GitHub Actions. O código vem do repositório privado Yoru-team/Yoru por
 # uma chave de implantação só de leitura (segredo YORU_SOURCE_DEPLOY_KEY).
 #
 # Como lançar: aba Actions > "Lançamento" > Run workflow, informando a versão (igual à do package.json) e o branch.
@@ -35,7 +35,7 @@ concurrency:
   cancel-in-progress: false
 
 env:
-  SOURCE_REPO: EmannuelVitor/Yoru
+  SOURCE_REPO: Yoru-team/Yoru
   VERSAO: ${{ inputs.versao }}
   TAG: v${{ inputs.versao }}
 
